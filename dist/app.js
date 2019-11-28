@@ -16,15 +16,11 @@ const assert = require("assert");
 const body_parser_1 = __importDefault(require("body-parser"));
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
-const mongodb_1 = require("mongodb");
+var MongoClient = require("mongodb").MongoClient;
 const geofence_1 = require("./geofence");
 const latlon_1 = require("./latlon");
-const dbUrl = process.env.databasePath || "mongodb://mongodb:27017";
+const dbUrl = "mongodb://igern:nkLnt69XZNRfoRM9pXRo8LRXHHVCN2Rb6jrlMt0xk3HHC6d0PUNzz2fPvHKEtjRS0rCzi0WoItJWMNY9XlaIsg%3D%3D@igern.mongo.cosmos.azure.com:10255/?ssl=true&appName=@igern@";
 const dbName = process.env.dbName || "fcoodb";
-const client = new mongodb_1.MongoClient(dbUrl, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-});
 const app = express_1.default();
 app.use(cors_1.default());
 app.use(body_parser_1.default.urlencoded({ extended: false }));
@@ -54,7 +50,7 @@ app.post("/api", (req, res) => {
             res.send("bad geofence type");
             break;
     }
-    client.connect((err) => __awaiter(void 0, void 0, void 0, function* () {
+    MongoClient.connect(dbUrl, (err, client) => __awaiter(void 0, void 0, void 0, function* () {
         assert.equal(null, err);
         const db = client.db(dbName);
         geofence.handle(db).then((result) => {
