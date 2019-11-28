@@ -25,7 +25,7 @@ const app = express_1.default();
 app.use(cors_1.default());
 app.use(body_parser_1.default.urlencoded({ extended: false }));
 app.use(body_parser_1.default.json());
-const port = process.env.port || "3001";
+const port = process.env.PORT || "3001";
 app.listen(port, (err) => {
     if (err) {
         return console.error(err);
